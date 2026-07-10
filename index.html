@@ -9,15 +9,10 @@
         .logo img { width: 180px; }
         .box { border: 2px solid #333; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); background-color: rgba(255,255,255,0.9); }
         
-        #boxData { background-color: #e1f5fe; }
-        #boxHasil { background-color: #fff9c4; display: none; }
-        #boxAnalisis { background-color: #e8f5e9; display: none; }
-        #boxGrafik { background-color: #fce4ec; display: none; }
-        #boxBuy { background-color: #fff3e0; display: none; }
-        #boxGraham { background-color: #ede7f6; }
-
+        #boxHasil, #boxAnalisis, #boxGrafik, #boxBuy { display: none; }
+        
         input { display: block; margin: 10px 0; padding: 10px; width: 95%; border-radius: 5px; border: 1px solid #ccc; }
-        button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; }
+        button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; margin-top: 10px; }
         
         .help-btn { cursor: pointer; background: #333; color: white; border-radius: 50%; width: 20px; height: 20px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
         
@@ -27,9 +22,8 @@
         .bar-label { margin-top: 10px; font-weight: bold; }
         .bar-value { margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
 
-        /* Styling Baru untuk Kotak Buy Bertahap */
         .scroll-wrapper { overflow-x: auto; display: flex; gap: 10px; padding: 10px 0; }
-        .buy-card { min-width: 140px; background: #fff; padding: 10px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.85em; }
+        .buy-card { min-width: 150px; background: #fff; padding: 15px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -43,14 +37,14 @@
     <input type="text" id="kode" placeholder="Kode Saham (Contoh: BBCA)">
     <input type="number" id="harga" placeholder="Harga Saham Saat Ini">
     
-    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Cara mencarinya: Lihat di aplikasi sekuritas pada menu Financial/Key Statistics, atau bagi Laba Bersih 12 bulan / jumlah saham beredar.')">?</span></label>
+    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Anda dapat menemukan angka ini pada laporan keuangan tahunan atau kuartalan terbaru perusahaan. Untuk menghitungnya secara manual, bagilah Laba Bersih 12 bulan terakhir dengan jumlah saham yang beredar di pasar.')">?</span></label>
     <input type="number" id="eps" placeholder="EPS TTM">
     
-    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai aset bersih perusahaan per lembar saham. Cara mencarinya: Lihat di aplikasi sekuritas pada bagian Fundamental, atau Total Ekuitas / jumlah saham beredar.')">?</span></label>
+    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai buku perusahaan per lembar saham yang mencerminkan nilai ekuitas perusahaan jika dilikuidasi. Anda bisa mendapatkannya di bagian ringkasan fundamental aplikasi sekuritas atau dengan membagi Total Ekuitas perusahaan dengan total lembar saham yang beredar.')">?</span></label>
     <input type="number" id="bvps" placeholder="BVPS">
     
     <button onclick="hitung()">Hitung Harga Wajar</button>
-    <button onclick="reset()">Reset</button>
+    <button onclick="reset()">Reset Halaman</button>
 </div>
 
 <div class="box" id="boxHasil">
@@ -60,7 +54,8 @@
     <p><strong>SELISIH HARGA:</strong> Rp <span id="selisih"></span></p>
     <p><strong>MARGIN OF SAFETY:</strong> <span id="mos"></span>%</p>
     <p><strong>POTENSI UPSIDE:</strong> <span id="upside"></span>%</p>
-    <p><strong>STATUS:</strong> <span id="status" style="font-weight:bold; color:red;"></span></p>
+    <p><strong>STATUS:</strong> <span id="status" style="font-weight:bold;"></span></p>
+    <button onclick="kembali()">Kembali ke Halaman Input</button>
 </div>
 
 <div class="box" id="boxAnalisis">
@@ -86,22 +81,30 @@
 
 <div class="box" id="boxBuy">
     <h3>Area Buy Bertahap</h3>
-    <div class="scroll-wrapper" id="buyText">
-        </div>
+    <div class="scroll-wrapper" id="buyText"></div>
 </div>
 
 <div class="box" id="boxGraham">
     <h3>Siapa Benjamin Graham?</h3>
-    <p>Benjamin Graham adalah tokoh legendaris dalam dunia investasi yang dikenal sebagai "Bapak Value Investing".</p>
-    <p><strong>Apa itu Graham Number?</strong> Graham Number adalah angka yang menunjukkan harga maksimum yang bisa dibayar oleh investor untuk sebuah saham agar tetap masuk dalam kategori "murah". Rumusnya: akar kuadrat dari (22.5 x EPS x BVPS).</p>
+    <p>Benjamin Graham (1894–1976) adalah seorang ekonom, profesor, dan investor profesional asal Amerika Serikat yang diakui secara luas sebagai "Bapak Value Investing". Beliau merupakan mentor dari investor legendaris Warren Buffett dan menulis karya monumental *The Intelligent Investor* dan *Security Analysis*.</p>
+    <p><strong>Apa itu Graham Number?</strong> Graham Number adalah sebuah metode valuasi yang dikembangkan oleh Benjamin Graham untuk menentukan harga maksimum yang layak dibayar oleh seorang investor untuk sebuah saham agar tetap masuk dalam kategori "murah" atau aman secara fundamental. Rumusnya adalah akar kuadrat dari (22.5 x EPS x BVPS). Angka 22.5 sendiri berasal dari batasan maksimum rasio harga terhadap laba (PER) sebesar 15 dan rasio harga terhadap nilai buku (PBV) sebesar 1.5 (15 x 1.5 = 22.5). Dengan menggunakan formula ini, investor bertujuan mencari saham yang dijual dengan harga diskon terhadap nilai intrinsiknya untuk mendapatkan *Margin of Safety* yang cukup guna meminimalisir risiko kerugian permanen akibat ketidakpastian pasar saham.</p>
 </div>
 
 <script>
 function hitung() {
     let kode = document.getElementById('kode').value;
-    let harga = parseFloat(document.getElementById('harga').value);
-    let eps = parseFloat(document.getElementById('eps').value);
-    let bvps = parseFloat(document.getElementById('bvps').value);
+    let harga = document.getElementById('harga').value;
+    let eps = document.getElementById('eps').value;
+    let bvps = document.getElementById('bvps').value;
+
+    if (!kode || !harga || !eps || !bvps) {
+        alert("Mohon isi semua kolom data saham dengan lengkap sebelum menekan tombol Hitung!");
+        return;
+    }
+
+    harga = parseFloat(harga);
+    eps = parseFloat(eps);
+    bvps = parseFloat(bvps);
     
     let wajar = Math.sqrt(22.5 * eps * bvps);
     let selisih = wajar - harga;
@@ -119,10 +122,7 @@ function hitung() {
     document.getElementById('status').innerText = status;
     document.getElementById('status').style.color = mos > 0 ? "green" : "red";
     
-    let narasi = mos > 0 
-        ? `Berdasarkan metode Graham, saham ${kode} saat ini berada di bawah harga wajarnya. Dengan Margin of Safety sebesar ${mos.toFixed(2)}%, ini menunjukkan bahwa secara teoritis, Anda membeli aset di bawah nilai intrinsiknya.`
-        : `Saham ${kode} saat ini diperdagangkan di atas harga wajar Graham.`;
-    document.getElementById('analisisText').innerText = narasi;
+    document.getElementById('analisisText').innerText = `Analisis Mendalam untuk ${kode}: Berdasarkan metode Benjamin Graham, harga wajar intrinsik saham ini dihitung sebesar Rp ${wajar.toFixed(2)}. Dengan membandingkan harga pasar saat ini di angka Rp ${harga}, kita mendapatkan Margin of Safety (MoS) sebesar ${mos.toFixed(2)}%. MoS yang positif menunjukkan bahwa Anda secara teoritis membeli aset di bawah nilai intrinsiknya yang sebenarnya, memberikan perlindungan modal yang lebih baik. Namun, jika MoS bernilai negatif, harga pasar saat ini sudah berada di atas nilai wajarnya menurut kriteria Graham, yang mengindikasikan potensi risiko yang lebih tinggi. Selalu ingat bahwa metode ini adalah alat bantu valuasi, dan keputusan investasi akhir harus tetap mempertimbangkan analisis kualitas fundamental perusahaan secara menyeluruh, tren industri, serta tujuan keuangan pribadi Anda.`;
     
     let max = Math.max(harga, wajar);
     document.getElementById('barSaatIni').style.height = (harga / max * 200) + "px";
@@ -131,10 +131,11 @@ function hitung() {
     document.getElementById('valWajar').innerText = "Rp " + wajar.toFixed(2);
     
     // Generate 5 Kotak Buy Bertahap
+    // MoS 10% = Diskon 10% (Harga lebih tinggi/mahal), MoS 50% = Diskon 50% (Harga lebih rendah/murah)
     let buyHtml = "";
     [10, 20, 30, 40, 50].forEach(m => {
         let hargaTarget = wajar * (1 - m/100);
-        buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><br>Harga < Rp ${hargaTarget.toFixed(2)}</div>`;
+        buyHtml += `<div class="buy-card"><b>Target MoS ${m}%</b><br>Harga < Rp ${hargaTarget.toFixed(2)}</div>`;
     });
     document.getElementById('buyText').innerHTML = buyHtml;
 
@@ -143,6 +144,14 @@ function hitung() {
     document.getElementById('boxAnalisis').style.display = 'block';
     document.getElementById('boxGrafik').style.display = 'block';
     document.getElementById('boxBuy').style.display = 'block';
+}
+
+function kembali() {
+    document.getElementById('boxData').style.display = 'block';
+    document.getElementById('boxHasil').style.display = 'none';
+    document.getElementById('boxAnalisis').style.display = 'none';
+    document.getElementById('boxGrafik').style.display = 'none';
+    document.getElementById('boxBuy').style.display = 'none';
 }
 
 function reset() { location.reload(); }
