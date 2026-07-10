@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valuasi Saham Graham Pro</title>
+    <title>Valuasi Saham Graham</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: linear-gradient(135deg, #00A651 0%, #FFFFFF 50%, #E31E24 100%); line-height: 1.6; min-height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background: linear-gradient(135deg, #00A651 0%, #FFFFFF 50%, #E31E24 100%); line-height: 1.6; min-height: 100vh; }
         .logo { text-align: center; margin-bottom: 20px; }
         .logo img { width: 180px; }
         .box { border: 2px solid #333; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); background-color: rgba(255,255,255,0.95); }
         
-        #boxHasil, #boxAnalisis, #boxGrafik, #boxBuy { display: none; }
+        input { display: block; margin: 10px 0; padding: 12px; width: 95%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; font-weight: bold; }
         
-        input { display: block; margin: 10px 0; padding: 12px; width: 90%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
-        button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; margin-top: 10px; font-size: 16px; }
-        
+        .btn-kembali { display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
         .help-btn { cursor: pointer; background: #333; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
         
-        .chart-container { display: flex; align-items: flex-end; justify-content: space-around; height: 250px; border-bottom: 2px solid #333; margin-top: 20px; padding-bottom: 5px; }
-        .bar-group { display: flex; flex-direction: column; align-items: center; width: 120px; }
-        .bar { width: 70px; transition: height 0.8s ease-out; }
-        .bar-label { margin-top: 10px; font-weight: bold; }
-        .bar-value { margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
-
         .scroll-wrapper { overflow-x: auto; display: flex; gap: 10px; padding: 10px 0; }
-        .buy-card { min-width: 150px; background: #fff; padding: 15px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.85em; }
+        .buy-card { min-width: 140px; background: #fff; padding: 10px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.85em; }
+        
+        #boxHasil, #boxAnalisis, #boxGrafik, #boxBuy { display: none; }
     </style>
 </head>
 <body>
@@ -38,75 +33,60 @@
     <input type="text" id="kode" placeholder="Kode Saham (Contoh: BBCA)">
     <input type="number" id="harga" placeholder="Harga Saham Saat Ini">
     
-    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Cara mencarinya: Lihat di aplikasi sekuritas pada menu Financial/Key Statistics, atau bagi Laba Bersih 12 bulan terakhir dengan jumlah saham beredar.')">?</span></label>
+    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Cara mencarinya: Lihat di aplikasi sekuritas pada menu Financial/Key Statistics, atau bagi Laba Bersih 12 bulan terakhir dengan jumlah saham yang beredar. Ini adalah angka krusial untuk mengetahui seberapa besar laba yang dihasilkan perusahaan bagi setiap pemegang saham.')">?</span></label>
     <input type="number" id="eps" placeholder="EPS TTM">
     
-    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai aset bersih perusahaan per lembar saham. Cara mencarinya: Lihat di aplikasi sekuritas pada bagian Fundamental, atau bagi Total Ekuitas dengan jumlah saham beredar.')">?</span></label>
+    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai aset bersih perusahaan per lembar saham. Cara mencarinya: Lihat di aplikasi sekuritas pada bagian Fundamental, atau Total Ekuitas perusahaan dibagi dengan jumlah saham yang beredar. Ini merepresentasikan nilai buku perusahaan yang secara teoritis menjadi dasar harga saham jika perusahaan dilikuidasi.')">?</span></label>
     <input type="number" id="bvps" placeholder="BVPS">
     
     <button onclick="hitung()">Hitung Harga Wajar</button>
     <button onclick="reset()">Reset</button>
+    <br>
+    <a href="https://alyazsignal.github.io/KALKULATOR-SAHAM-ALYAZ-SIGNAL/" class="btn-kembali">← Kembali ke Menu Utama</a>
 </div>
 
-<div class="box" id="boxHasil">
-    <h3>Hasil Valuasi (<span id="outKode"></span>)</h3>
-    <p><strong>HARGA WAJAR GRAHAM:</strong> Rp <span id="wajar"></span></p>
-    <p><strong>HARGA SAAT INI:</strong> Rp <span id="outHarga"></span></p>
-    <p><strong>SELISIH HARGA:</strong> Rp <span id="selisih"></span></p>
-    <p><strong>MARGIN OF SAFETY:</strong> <span id="mos"></span>%</p>
-    <p><strong>POTENSI UPSIDE:</strong> <span id="upside"></span>%</p>
-    <p><strong>STATUS:</strong> <span id="status" style="font-weight:bold;"></span></p>
-    <button onclick="kembali()">Kembali ke Data</button>
-</div>
+<div id="wrapperHasil">
+    <div class="box" id="boxHasil">
+        <h3>Hasil Valuasi (<span id="outKode"></span>)</h3>
+        <p><strong>HARGA WAJAR GRAHAM:</strong> Rp <span id="wajar"></span></p>
+        <p><strong>HARGA SAAT INI:</strong> Rp <span id="outHarga"></span></p>
+        <p><strong>SELISIH HARGA:</strong> Rp <span id="selisih"></span></p>
+        <p><strong>MARGIN OF SAFETY:</strong> <span id="mos"></span>%</p>
+        <p><strong>POTENSI UPSIDE:</strong> <span id="upside"></span>%</p>
+        <p><strong>STATUS:</strong> <span id="status" style="font-weight:bold;"></span></p>
+        <button onclick="location.reload()">← Kembali ke Data Saham</button>
+        <br>
+        <a href="https://alyazsignal.github.io/KALKULATOR-SAHAM-ALYAZ-SIGNAL/" class="btn-kembali">← Kembali ke Menu Utama</a>
+    </div>
 
-<div class="box" id="boxAnalisis">
-    <h3>Analisis Lengkap</h3>
-    <p id="analisisText"></p>
-</div>
+    <div class="box" id="boxAnalisis">
+        <h3>Analisis Mendalam</h3>
+        <p id="analisisText"></p>
+    </div>
 
-<div class="box" id="boxGrafik">
-    <h3>Grafik Perbandingan</h3>
-    <div class="chart-container">
-        <div class="bar-group">
-            <span class="bar-value" id="valSaatIni"></span>
-            <div id="barSaatIni" class="bar" style="background-color: #ff5252; height: 0;"></div>
-            <span class="bar-label">Harga Saat Ini</span>
-        </div>
-        <div class="bar-group">
-            <span class="bar-value" id="valWajar"></span>
-            <div id="barWajar" class="bar" style="background-color: #4caf50; height: 0;"></div>
-            <span class="bar-label">Harga Wajar</span>
-        </div>
+    <div class="box" id="boxBuy">
+        <h3>Area Buy Bertahap</h3>
+        <div class="scroll-wrapper" id="buyText"></div>
     </div>
 </div>
 
-<div class="box" id="boxBuy">
-    <h3>Area Buy Bertahap</h3>
-    <div class="scroll-wrapper" id="buyText"></div>
-</div>
-
-<div class="box" id="boxGraham">
+<div class="box">
     <h3>Siapa Benjamin Graham?</h3>
-    <p>Benjamin Graham (1894–1976) adalah tokoh legendaris dalam dunia investasi yang diakui secara luas sebagai "Bapak Value Investing". Beliau adalah penulis buku *The Intelligent Investor* dan *Security Analysis* yang menjadi panduan utama bagi investor nilai di seluruh dunia.</p>
-    <p><strong>Apa itu Graham Number?</strong> Graham Number adalah formula konservatif yang diciptakan untuk menentukan harga beli maksimal yang dianggap wajar bagi seorang investor untuk sebuah saham agar tetap masuk dalam kategori "murah" atau aman secara fundamental. Rumusnya adalah akar kuadrat dari (22.5 x EPS x BVPS). Angka 22.5 berasal dari batasan rasio harga terhadap laba (PER) sebesar 15 dan rasio harga terhadap nilai buku (PBV) sebesar 1.5, yang dikalikan (15 x 1.5 = 22.5). Metode ini sangat mengedepankan prinsip *Margin of Safety* untuk memberikan bantalan perlindungan bagi modal investor dari ketidakpastian fluktuasi harga pasar yang ekstrem.</p>
+    <p>Benjamin Graham (1894–1976) adalah tokoh legendaris yang diakui secara global sebagai "Bapak Value Investing". Beliau adalah mentor dari Warren Buffett dan penulis buku fundamental "The Intelligent Investor" yang menjadi kitab wajib para investor di seluruh dunia.</p>
+    <p><strong>Apa itu Graham Number?</strong> Graham Number adalah formula yang digunakan untuk menentukan harga maksimum yang masih dianggap wajar untuk dibayar oleh seorang investor. Rumusnya menggunakan akar kuadrat dari hasil perkalian 22.5 dengan EPS dan BVPS. Metode ini bertujuan untuk memberikan Margin of Safety atau jarak pengaman agar investor memiliki perlindungan saat kondisi pasar sedang turun atau volatil.</p>
 </div>
 
 <script>
 function hitung() {
     let kode = document.getElementById('kode').value;
-    let harga = document.getElementById('harga').value;
-    let eps = document.getElementById('eps').value;
-    let bvps = document.getElementById('bvps').value;
+    let harga = parseFloat(document.getElementById('harga').value);
+    let eps = parseFloat(document.getElementById('eps').value);
+    let bvps = parseFloat(document.getElementById('bvps').value);
     
-    // Validasi Data
-    if (!kode || !harga || !eps || !bvps) {
-        alert("Mohon isi semua data saham dengan lengkap!");
+    if(!kode || isNaN(harga) || isNaN(eps) || isNaN(bvps)) {
+        alert("Harap isi semua data saham dengan lengkap sebelum melanjutkan!");
         return;
     }
-
-    harga = parseFloat(harga);
-    eps = parseFloat(eps);
-    bvps = parseFloat(bvps);
     
     let wajar = Math.sqrt(22.5 * eps * bvps);
     let selisih = wajar - harga;
@@ -124,37 +104,22 @@ function hitung() {
     document.getElementById('status').innerText = status;
     document.getElementById('status').style.color = mos > 0 ? "green" : "red";
     
-    document.getElementById('analisisText').innerText = `Analisis mendalam untuk saham ${kode}: Perhitungan Graham Number menghasilkan harga wajar di angka Rp ${wajar.toFixed(2)}. Dengan membandingkan harga pasar saat ini sebesar Rp ${harga}, kita menemukan Margin of Safety (MoS) sebesar ${mos.toFixed(2)}%. Konsep Margin of Safety yang diajarkan Benjamin Graham adalah prinsip keamanan utama; semakin tinggi nilai MoS, semakin kecil risiko Anda mengalami kerugian permanen akibat fluktuasi pasar. Jika status menunjukkan 'Sangat Murah', ini mencerminkan diskon pasar yang signifikan terhadap nilai intrinsik perusahaan. Namun, investor tetap disarankan untuk memeriksa faktor kualitatif lainnya seperti efisiensi manajemen, utang jangka panjang, dan keberlangsungan bisnis perusahaan di masa depan sebelum mengambil keputusan investasi besar.`;
+    document.getElementById('analisisText').innerText = mos > 0 
+        ? `Berdasarkan metode valuasi Benjamin Graham, saham ${kode} saat ini berada di bawah harga wajarnya. Dengan Margin of Safety sebesar ${mos.toFixed(2)}%, ini menunjukkan bahwa secara teoritis, Anda membeli aset di bawah nilai intrinsiknya. Strategi ini sangat cocok untuk investor jangka panjang yang mementingkan nilai perusahaan di atas fluktuasi harga pasar harian.`
+        : `Saham ${kode} saat ini diperdagangkan di atas harga wajar Graham. Pembelian di area ini memiliki Margin of Safety yang negatif, yang berarti risiko terhadap modal Anda lebih tinggi. Disarankan untuk meninjau kembali keputusan investasi Anda atau menunggu hingga harga pasar terkoreksi lebih dekat ke nilai wajarnya.`;
     
-    let max = Math.max(harga, wajar);
-    document.getElementById('barSaatIni').style.height = (harga / max * 200) + "px";
-    document.getElementById('barWajar').style.height = (wajar / max * 200) + "px";
-    document.getElementById('valSaatIni').innerText = "Rp " + harga;
-    document.getElementById('valWajar').innerText = "Rp " + wajar.toFixed(2);
-    
-    // Generate 5 Kotak Buy Bertahap
-    // MoS 10% = Diskon kecil, harga beli mendekati wajar (target harga lebih tinggi)
-    // MoS 50% = Diskon besar, harga beli sangat murah (target harga lebih rendah)
+    // Logika Dibalik: Semakin besar persentase, harga semakin rendah
     let buyHtml = "";
     [10, 20, 30, 40, 50].forEach(m => {
-        let hargaTarget = wajar * (1 - (m / 100));
-        buyHtml += `<div class="buy-card"><b>Target MoS ${m}%</b><br>Harga < Rp ${hargaTarget.toFixed(2)}</div>`;
+        let hargaTarget = wajar * (1 - (m/100));
+        buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><br>Harga < ${hargaTarget.toFixed(2)}</div>`;
     });
     document.getElementById('buyText').innerHTML = buyHtml;
 
     document.getElementById('boxData').style.display = 'none';
     document.getElementById('boxHasil').style.display = 'block';
     document.getElementById('boxAnalisis').style.display = 'block';
-    document.getElementById('boxGrafik').style.display = 'block';
     document.getElementById('boxBuy').style.display = 'block';
-}
-
-function kembali() {
-    document.getElementById('boxData').style.display = 'block';
-    document.getElementById('boxHasil').style.display = 'none';
-    document.getElementById('boxAnalisis').style.display = 'none';
-    document.getElementById('boxGrafik').style.display = 'none';
-    document.getElementById('boxBuy').style.display = 'none';
 }
 
 function reset() { location.reload(); }
