@@ -20,7 +20,7 @@
         #boxKelebihan { background-color: #fff9c4; display: none; }
         #boxMenuUtama { background-color: #c8e6c9; }
 
-        input, select { display: block; margin: 10px 0; padding: 12px; width: 95%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        input, select { display: block; margin: 10px 0; padding: 12px; width: 300px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; font-weight: bold; }
         .btn-kembali { display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
         .help-btn { cursor: help; background: #333; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
@@ -140,6 +140,7 @@
         <p>• Mengajarkan bahwa membeli saham adalah membeli bisnis, bukan sekadar menebak fluktuasi harga jangka pendek.</p>
         <p>• Fokus pada analisis fundamental mendalam untuk menemukan harga saham yang salah harga oleh pasar.</p>
         <h3>Apa itu Graham Number?</h3>
+        <p>Graham Number adalah angka valuasi untuk menentukan harga maksimum yang layak dibayar oleh seorang investor untuk sebuah saham agar tetap masuk kategori aman dan tidak kemahalan. Angka ini memberikan batas atas untuk perlindungan modal Anda. Rumus ini didasarkan pada asumsi Benjamin Graham bahwa P/E rasio tidak boleh lebih dari 15 dan P/B rasio tidak boleh lebih dari 1,5, yang jika dikalikan memberikan konstanta 22,5. Dengan menggunakan rumus ini, investor dapat menyaring saham yang harganya terlalu mahal dan tetap berada dalam batasan keamanan (safety) yang telah ditetapkan oleh bapak investasi dunia.</p>
         <div class="box" style="background-color: #c8e6c9;">
             <p><strong>Rumus Graham:</strong> Harga Wajar = √ (22.5 x EPS x BVPS)</p>
         </div>
@@ -167,6 +168,11 @@
 </div>
 
 <script>
+// Fungsi agar saat website dibuka posisi langsung di paling atas
+window.onload = function() {
+    window.scrollTo(0, 0);
+};
+
 function formatRupiah(num) {
     return 'Rp ' + num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -181,6 +187,9 @@ function hitung() {
         alert("Mohon isi semua data dengan benar!");
         return;
     }
+    
+    // Auto scroll ke paling atas saat hasil muncul
+    window.scrollTo(0, 0);
     
     let wajar = Math.sqrt(22.5 * eps * bvps);
     let selisih = wajar - harga;
