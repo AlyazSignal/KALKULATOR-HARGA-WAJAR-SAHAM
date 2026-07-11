@@ -20,7 +20,8 @@
         #boxKelebihan { background-color: #fff9c4; display: none; }
         #boxMenuUtama { background-color: #c8e6c9; }
 
-        input, select { display: block; margin: 10px 0; padding: 12px; width: 300px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        input { display: block; margin: 10px 0; padding: 12px; width: 95%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        select { display: block; margin: 10px 0; padding: 10px; width: 250px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; font-weight: bold; }
         .btn-kembali { display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
         .help-btn { cursor: help; background: #333; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
@@ -140,9 +141,10 @@
         <p>• Mengajarkan bahwa membeli saham adalah membeli bisnis, bukan sekadar menebak fluktuasi harga jangka pendek.</p>
         <p>• Fokus pada analisis fundamental mendalam untuk menemukan harga saham yang salah harga oleh pasar.</p>
         <h3>Apa itu Graham Number?</h3>
-        <p>Graham Number adalah angka valuasi untuk menentukan harga maksimum yang layak dibayar oleh seorang investor untuk sebuah saham agar tetap masuk kategori aman dan tidak kemahalan. Angka ini memberikan batas atas untuk perlindungan modal Anda. Rumus ini didasarkan pada asumsi Benjamin Graham bahwa P/E rasio tidak boleh lebih dari 15 dan P/B rasio tidak boleh lebih dari 1,5, yang jika dikalikan memberikan konstanta 22,5. Dengan menggunakan rumus ini, investor dapat menyaring saham yang harganya terlalu mahal dan tetap berada dalam batasan keamanan (safety) yang telah ditetapkan oleh bapak investasi dunia.</p>
+        <p>Graham Number adalah angka valuasi untuk menentukan harga maksimum yang layak dibayar oleh seorang investor untuk sebuah saham agar tetap masuk kategori aman dan tidak kemahalan. Angka ini memberikan batas atas untuk perlindungan modal Anda.</p>
         <div class="box" style="background-color: #c8e6c9;">
             <p><strong>Rumus Graham:</strong> Harga Wajar = √ (22.5 x EPS x BVPS)</p>
+            <p>Penjelasan Rumus: Angka konstanta 22,5 dalam rumus ini berasal dari aturan Benjamin Graham yang sangat terkenal, yakni P/E ratio tidak boleh lebih dari 15 dan P/B ratio tidak boleh lebih dari 1,5. Hasil perkalian 15 dikali 1,5 menghasilkan angka 22,5. Rumus ini dirancang untuk menyaring perusahaan dengan fundamental yang benar-benar kuat sehingga investor tidak membeli saham di harga yang tidak masuk akal.</p>
         </div>
     </div>
 
@@ -168,86 +170,86 @@
 </div>
 
 <script>
-// Fungsi agar saat website dibuka posisi langsung di paling atas
-window.onload = function() {
-    window.scrollTo(0, 0);
-};
+    // Fungsi agar posisi halaman selalu di atas saat dimuat
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    };
 
-function formatRupiah(num) {
-    return 'Rp ' + num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-function hitung() {
-    let kode = document.getElementById('kode').value;
-    let harga = parseFloat(document.getElementById('harga').value);
-    let eps = parseFloat(document.getElementById('eps').value);
-    let bvps = parseFloat(document.getElementById('bvps').value);
-    
-    if(!kode || isNaN(harga) || isNaN(eps) || isNaN(bvps)) {
-        alert("Mohon isi semua data dengan benar!");
-        return;
+    function formatRupiah(num) {
+        return 'Rp ' + num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
-    
-    // Auto scroll ke paling atas saat hasil muncul
-    window.scrollTo(0, 0);
-    
-    let wajar = Math.sqrt(22.5 * eps * bvps);
-    let selisih = wajar - harga;
-    let mos = (selisih / wajar) * 100;
-    let upside = ((wajar - harga) / harga) * 100;
-    
-    document.getElementById('outKode').innerText = kode;
-    
-    let wajarEl = document.getElementById('wajar');
-    wajarEl.innerText = formatRupiah(wajar);
-    wajarEl.style.color = (wajar >= harga) ? "green" : "red";
-    
-    document.getElementById('outHarga').innerText = formatRupiah(harga);
-    
-    let selisihEl = document.getElementById('selisih');
-    selisihEl.innerText = formatRupiah(selisih);
-    selisihEl.style.color = (selisih >= 0) ? "green" : "red";
-    
-    let mosEl = document.getElementById('mos');
-    mosEl.innerText = mos.toFixed(2);
-    mosEl.style.color = (mos >= 0) ? "green" : "red";
-    
-    let upsideEl = document.getElementById('upside');
-    upsideEl.innerText = upside.toFixed(2);
-    upsideEl.style.color = (upside >= 0) ? "green" : "red";
-    
-    let statusEl = document.getElementById('status');
-    statusEl.innerText = mos > 0 ? "SANGAT MURAH (Deep Undervalued)" : "OVERVALUED";
-    statusEl.style.color = mos > 0 ? "green" : "red";
-    
-    document.getElementById('analisisText').innerText = `Secara analisis Benjamin Graham, saham ${kode} saat ini memiliki nilai intrinsik sebesar ${formatRupiah(wajar)}. Dengan harga pasar saat ini ${formatRupiah(harga)}, ini menunjukkan Margin of Safety sebesar ${mos.toFixed(2)}%. Strategi Graham sangat mengutamakan keamanan modal, sehingga ${mos > 0 ? "saham ini layak dipertimbangkan karena berada di bawah nilai intrinsiknya." : "saham ini dinilai sudah terlalu mahal oleh pasar dibandingkan nilai intrinsik Graham."}`;
-    
-    let max = Math.max(harga, wajar);
-    document.getElementById('barSaatIni').style.height = (harga / max * 200) + "px";
-    document.getElementById('barWajar').style.height = (wajar / max * 200) + "px";
-    document.getElementById('valSaatIni').innerText = formatRupiah(harga);
-    document.getElementById('valWajar').innerText = formatRupiah(wajar);
-    
-    let buyHtml = "";
-    [10, 20, 30, 40, 50].forEach(m => {
-        let hargaTarget = wajar * (1 - m/100);
-        buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><hr>Harga < ${formatRupiah(hargaTarget)}</div>`;
-    });
-    document.getElementById('buyText').innerHTML = buyHtml;
 
-    document.getElementById('boxData').style.display = 'none';
-    document.getElementById('boxTutorial').style.display = 'none';
-    document.getElementById('boxMenuUtama').style.display = 'none';
-    document.getElementById('boxGraham').style.display = 'none';
-    document.getElementById('boxHasilUtama').style.display = 'block';
-    document.getElementById('boxHasil').style.display = 'block';
-    document.getElementById('boxAnalisis').style.display = 'block';
-    document.getElementById('boxGrafik').style.display = 'block';
-    document.getElementById('boxBuy').style.display = 'block';
-    document.getElementById('boxKelebihan').style.display = 'block';
-}
+    function hitung() {
+        let kode = document.getElementById('kode').value;
+        let harga = parseFloat(document.getElementById('harga').value);
+        let eps = parseFloat(document.getElementById('eps').value);
+        let bvps = parseFloat(document.getElementById('bvps').value);
+        
+        if(!kode || isNaN(harga) || isNaN(eps) || isNaN(bvps)) {
+            alert("Mohon isi semua data dengan benar!");
+            return;
+        }
+        
+        // Auto scroll ke paling atas saat hasil perhitungan muncul
+        window.scrollTo(0, 0);
+        
+        let wajar = Math.sqrt(22.5 * eps * bvps);
+        let selisih = wajar - harga;
+        let mos = (selisih / wajar) * 100;
+        let upside = ((wajar - harga) / harga) * 100;
+        
+        document.getElementById('outKode').innerText = kode;
+        
+        let wajarEl = document.getElementById('wajar');
+        wajarEl.innerText = formatRupiah(wajar);
+        wajarEl.style.color = (wajar >= harga) ? "green" : "red";
+        
+        document.getElementById('outHarga').innerText = formatRupiah(harga);
+        
+        let selisihEl = document.getElementById('selisih');
+        selisihEl.innerText = formatRupiah(selisih);
+        selisihEl.style.color = (selisih >= 0) ? "green" : "red";
+        
+        let mosEl = document.getElementById('mos');
+        mosEl.innerText = mos.toFixed(2);
+        mosEl.style.color = (mos >= 0) ? "green" : "red";
+        
+        let upsideEl = document.getElementById('upside');
+        upsideEl.innerText = upside.toFixed(2);
+        upsideEl.style.color = (upside >= 0) ? "green" : "red";
+        
+        let statusEl = document.getElementById('status');
+        statusEl.innerText = mos > 0 ? "SANGAT MURAH (Deep Undervalued)" : "OVERVALUED";
+        statusEl.style.color = mos > 0 ? "green" : "red";
+        
+        document.getElementById('analisisText').innerText = `Secara analisis Benjamin Graham, saham ${kode} saat ini memiliki nilai intrinsik sebesar ${formatRupiah(wajar)}. Dengan harga pasar saat ini ${formatRupiah(harga)}, ini menunjukkan Margin of Safety sebesar ${mos.toFixed(2)}%. Strategi Graham sangat mengutamakan keamanan modal, sehingga ${mos > 0 ? "saham ini layak dipertimbangkan karena berada di bawah nilai intrinsiknya." : "saham ini dinilai sudah terlalu mahal oleh pasar dibandingkan nilai intrinsik Graham."}`;
+        
+        let max = Math.max(harga, wajar);
+        document.getElementById('barSaatIni').style.height = (harga / max * 200) + "px";
+        document.getElementById('barWajar').style.height = (wajar / max * 200) + "px";
+        document.getElementById('valSaatIni').innerText = formatRupiah(harga);
+        document.getElementById('valWajar').innerText = formatRupiah(wajar);
+        
+        let buyHtml = "";
+        [10, 20, 30, 40, 50].forEach(m => {
+            let hargaTarget = wajar * (1 - m/100);
+            buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><hr>Harga < ${formatRupiah(hargaTarget)}</div>`;
+        });
+        document.getElementById('buyText').innerHTML = buyHtml;
 
-function reset() { location.reload(); }
+        document.getElementById('boxData').style.display = 'none';
+        document.getElementById('boxTutorial').style.display = 'none';
+        document.getElementById('boxMenuUtama').style.display = 'none';
+        document.getElementById('boxGraham').style.display = 'none';
+        document.getElementById('boxHasilUtama').style.display = 'block';
+        document.getElementById('boxHasil').style.display = 'block';
+        document.getElementById('boxAnalisis').style.display = 'block';
+        document.getElementById('boxGrafik').style.display = 'block';
+        document.getElementById('boxBuy').style.display = 'block';
+        document.getElementById('boxKelebihan').style.display = 'block';
+    }
+
+    function reset() { location.reload(); }
 </script>
 </body>
 </html>
