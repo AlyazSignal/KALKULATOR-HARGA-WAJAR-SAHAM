@@ -10,16 +10,28 @@
         .logo img { width: 180px; }
         .box { border: 2px solid #333; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); background-color: rgba(255,255,255,0.95); }
         
-        input { display: block; margin: 10px 0; padding: 12px; width: 95%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        #boxTutorial { background-color: #bbdefb; }
+        #boxData { background-color: #e1f5fe; }
+        #boxHasil { background-color: #bbdefb; display: none; }
+        #boxAnalisis { background-color: #ffcdd2; display: none; }
+        #boxGrafik { background-color: #c8e6c9; display: none; }
+        #boxBuy { background-color: #ffe0b2; display: none; }
+        #boxGraham { background-color: #ffffff; }
+        #boxKelebihan { background-color: #fff9c4; display: none; }
+        #boxMenuUtama { background-color: #c8e6c9; }
+
+        input, select { display: block; margin: 10px 0; padding: 12px; width: 95%; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
         button { padding: 12px 25px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; margin-right: 5px; font-weight: bold; }
-        
         .btn-kembali { display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
-        .help-btn { cursor: pointer; background: #333; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
+        .help-btn { cursor: help; background: #333; color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-block; text-align: center; font-size: 14px; font-weight: bold; margin-left: 5px; }
         
+        .chart-container { display: flex; align-items: flex-end; justify-content: space-around; height: 250px; border-bottom: 2px solid #333; margin-top: 20px; padding-bottom: 5px; }
+        .bar-group { display: flex; flex-direction: column; align-items: center; width: 120px; }
+        .bar { width: 70px; transition: height 0.8s ease-out; }
+        .bar-label { margin-top: 10px; font-weight: bold; }
+        .bar-value { margin-bottom: 5px; font-size: 0.9em; font-weight: bold; }
         .scroll-wrapper { overflow-x: auto; display: flex; gap: 10px; padding: 10px 0; }
         .buy-card { min-width: 140px; background: #fff; padding: 10px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.85em; }
-        
-        #boxHasil, #boxAnalisis, #boxGrafik, #boxBuy { display: none; }
     </style>
 </head>
 <body>
@@ -28,55 +40,137 @@
     <img src="https://i.ibb.co.com/FLfzc7Xn/1000892143-removebg-preview.png" alt="ALYAZ SIGNAL">
 </div>
 
+<div class="box" id="boxTutorial">
+    <h3>Video Tutorial</h3>
+    <p>Silakan pilih platform media sosial untuk melihat panduan cara pengisian data:</p>
+    <select id="selectSosmed">
+        <option value="https://vt.tiktok.com/ZSXR4DBcC/">Tiktok</option>
+        <option value="https://youtube.com/shorts/0zfgEZ9jjaY?si=ZywMpOaOnIRvDHte">YouTube</option>
+        <option value="https://www.instagram.com/reel/Dano0q4Pehh/?igsh=MWVpdTFvOTlvaGtqYQ==">Instagram</option>
+    </select>
+    <button onclick="window.open(document.getElementById('selectSosmed').value, '_blank')">Tonton Video Tutorial</button>
+</div>
+
 <div class="box" id="boxData">
     <h3>Data Saham</h3>
-    <input type="text" id="kode" placeholder="Kode Saham (Contoh: BBCA)">
-    <input type="number" id="harga" placeholder="Harga Saham Saat Ini">
+    <label>Kode Saham</label>
+    <input type="text" id="kode" placeholder="Contoh: BBCA">
+    <label>Harga Saham Saat Ini</label>
+    <input type="number" id="harga" placeholder="Masukkan Harga">
     
-    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Cara mencarinya: Lihat di aplikasi sekuritas pada menu Financial/Key Statistics, atau bagi Laba Bersih 12 bulan terakhir dengan jumlah saham yang beredar. Ini adalah angka krusial untuk mengetahui seberapa besar laba yang dihasilkan perusahaan bagi setiap pemegang saham.')">?</span></label>
-    <input type="number" id="eps" placeholder="EPS TTM">
+    <label>EPS TTM <span class="help-btn" onclick="alert('EPS TTM (Earnings Per Share) adalah laba bersih perusahaan per lembar saham selama 12 bulan terakhir. Nilai ini sangat krusial bagi investor karena EPS mencerminkan profitabilitas perusahaan secara tahunan. Dengan mengetahui EPS, kita bisa menilai seberapa efisien perusahaan dalam mengelola modal untuk menghasilkan keuntungan. EPS yang stabil atau terus bertumbuh menunjukkan bahwa perusahaan memiliki fundamental yang sangat kuat, manajemen yang sangat kompeten, serta keunggulan kompetitif di sektor industrinya masing-masing.')">?</span></label>
+    <input type="number" id="eps" placeholder="Masukkan EPS">
     
-    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai aset bersih perusahaan per lembar saham. Cara mencarinya: Lihat di aplikasi sekuritas pada bagian Fundamental, atau Total Ekuitas perusahaan dibagi dengan jumlah saham yang beredar. Ini merepresentasikan nilai buku perusahaan yang secara teoritis menjadi dasar harga saham jika perusahaan dilikuidasi.')">?</span></label>
-    <input type="number" id="bvps" placeholder="BVPS">
+    <label>BVPS <span class="help-btn" onclick="alert('BVPS (Book Value Per Share) adalah nilai aset bersih perusahaan dibagi dengan jumlah saham yang beredar. BVPS mencerminkan nilai buku perusahaan dari sudut pandang akuntansi yang murni. Ini adalah indikator penting untuk melihat apakah harga saham yang diperdagangkan di bursa saat ini terlalu mahal jika dibandingkan dengan kekayaan bersih atau nilai aset riil yang dimiliki oleh perusahaan tersebut.')">?</span></label>
+    <input type="number" id="bvps" placeholder="Masukkan BVPS">
     
     <button onclick="hitung()">Hitung Harga Wajar</button>
     <button onclick="reset()">Reset</button>
-    <br>
+</div>
+
+<div class="box" id="boxMenuUtama">
     <a href="https://alyazsignal.github.io/KALKULATOR-SAHAM-ALYAZ-SIGNAL/" class="btn-kembali">← Kembali ke Menu Utama</a>
 </div>
 
-<div id="wrapperHasil">
-    <div class="box" id="boxHasil">
+<div class="box" id="boxGraham" style="background-color: #fff9c4;">
+    <h3>Siapa Benjamin Graham?</h3>
+    <p>• Benjamin Graham (1894–1976) adalah sosok legendaris yang dikenal di seluruh dunia sebagai "Bapak Value Investing".</p>
+    <p>• Beliau adalah seorang ekonom dan profesor di Columbia Business School yang sangat berpengaruh.</p>
+    <p>• Penulis utama buku fundamental yang berjudul "The Intelligent Investor" yang wajib dibaca setiap investor.</p>
+    <p>• Mentor utama bagi investor paling sukses di dunia, yakni Warren Buffett.</p>
+    <p>• Beliau mengajarkan konsep "Margin of Safety" sebagai benteng utama pelindung modal investor.</p>
+    <p>• Mengajarkan bahwa membeli saham adalah membeli bisnis, bukan sekadar menebak fluktuasi harga jangka pendek.</p>
+    <p>• Fokus pada analisis fundamental mendalam untuk menemukan harga saham yang salah harga oleh pasar.</p>
+    <br>
+    <h3>Apa itu Graham Number?</h3>
+    <p>Graham Number adalah angka valuasi untuk menentukan harga maksimum yang layak dibayar oleh seorang investor untuk sebuah saham agar tetap masuk kategori aman dan tidak kemahalan. Angka ini memberikan batas atas untuk perlindungan modal Anda.</p>
+    <div class="box" style="background-color: #ffffff;">
+        <p><strong>Rumus Graham:</strong> Harga Wajar = √ (22.5 x EPS x BVPS)</p>
+        <p>Rumus ini menggunakan konstanta 22,5 yang berasal dari aturan Graham untuk P/E ratio dan P/B ratio yang dianggap ideal untuk perusahaan yang memiliki kesehatan keuangan yang solid.</p>
+    </div>
+</div>
+
+<div id="boxHasilUtama" style="display:none;">
+    <div class="box" id="boxHasil" style="background-color: #bbdefb;">
         <h3>Hasil Valuasi (<span id="outKode"></span>)</h3>
-        <p><strong>HARGA WAJAR GRAHAM:</strong> Rp <span id="wajar"></span></p>
-        <p><strong>HARGA SAAT INI:</strong> Rp <span id="outHarga"></span></p>
-        <p><strong>SELISIH HARGA:</strong> Rp <span id="selisih"></span></p>
-        <p><strong>MARGIN OF SAFETY:</strong> <span id="mos"></span>%</p>
-        <p><strong>POTENSI UPSIDE:</strong> <span id="upside"></span>%</p>
+        <p><strong>HARGA WAJAR GRAHAM:</strong> <span id="wajar" style="font-weight:bold;"></span></p>
+        <p><strong>HARGA SAAT INI:</strong> <span id="outHarga" style="font-weight:bold;"></span></p>
+        <p><strong>SELISIH HARGA:</strong> <span id="selisih" style="font-weight:bold;"></span></p>
+        <p><strong>MARGIN OF SAFETY:</strong> <span id="mos" style="font-weight:bold;"></span> %</p>
+        <p><strong>POTENSI UPSIDE:</strong> <span id="upside" style="font-weight:bold;"></span> %</p>
         <p><strong>STATUS:</strong> <span id="status" style="font-weight:bold;"></span></p>
-        <button onclick="location.reload()">← Kembali ke Data Saham</button>
+        <button onclick="location.reload();">← Kembali ke Data Saham</button>
         <br>
         <a href="https://alyazsignal.github.io/KALKULATOR-SAHAM-ALYAZ-SIGNAL/" class="btn-kembali">← Kembali ke Menu Utama</a>
     </div>
 
-    <div class="box" id="boxAnalisis">
-        <h3>Analisis Mendalam</h3>
+    <div class="box" id="boxAnalisis" style="background-color: #ffcdd2;">
+        <h3>Analisis Otomatis</h3>
         <p id="analisisText"></p>
     </div>
 
-    <div class="box" id="boxBuy">
+    <div class="box" id="boxGrafik" style="background-color: #c8e6c9;">
+        <h3>Grafik Perbandingan</h3>
+        <div class="chart-container">
+            <div class="bar-group">
+                <span class="bar-value" id="valSaatIni"></span>
+                <div id="barSaatIni" class="bar" style="background-color: #ff5252;"></div>
+                <span class="bar-label">Harga Saat Ini</span>
+            </div>
+            <div class="bar-group">
+                <span class="bar-value" id="valWajar"></span>
+                <div id="barWajar" class="bar" style="background-color: #4caf50;"></div>
+                <span class="bar-label">Harga Wajar</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="box" id="boxBuy" style="background-color: #ffe0b2;">
         <h3>Area Buy Bertahap</h3>
         <div class="scroll-wrapper" id="buyText"></div>
     </div>
-</div>
 
-<div class="box">
-    <h3>Siapa Benjamin Graham?</h3>
-    <p>Benjamin Graham (1894–1976) adalah tokoh legendaris yang diakui secara global sebagai "Bapak Value Investing". Beliau adalah mentor dari Warren Buffett dan penulis buku fundamental "The Intelligent Investor" yang menjadi kitab wajib para investor di seluruh dunia.</p>
-    <p><strong>Apa itu Graham Number?</strong> Graham Number adalah formula yang digunakan untuk menentukan harga maksimum yang masih dianggap wajar untuk dibayar oleh seorang investor. Rumusnya menggunakan akar kuadrat dari hasil perkalian 22.5 dengan EPS dan BVPS. Metode ini bertujuan untuk memberikan Margin of Safety atau jarak pengaman agar investor memiliki perlindungan saat kondisi pasar sedang turun atau volatil.</p>
+    <div class="box" id="boxGrahamHasil" style="background-color: #ffffff;">
+        <h3>Siapa Benjamin Graham?</h3>
+        <p>• Benjamin Graham (1894–1976) adalah sosok legendaris yang dikenal di seluruh dunia sebagai "Bapak Value Investing".</p>
+        <p>• Beliau adalah seorang ekonom dan profesor di Columbia Business School yang sangat berpengaruh.</p>
+        <p>• Penulis utama buku fundamental yang berjudul "The Intelligent Investor" yang wajib dibaca setiap investor.</p>
+        <p>• Mentor utama bagi investor paling sukses di dunia, yakni Warren Buffett.</p>
+        <p>• Beliau mengajarkan konsep "Margin of Safety" sebagai benteng utama pelindung modal investor.</p>
+        <p>• Mengajarkan bahwa membeli saham adalah membeli bisnis, bukan sekadar menebak fluktuasi harga jangka pendek.</p>
+        <p>• Fokus pada analisis fundamental mendalam untuk menemukan harga saham yang salah harga oleh pasar.</p>
+        <h3>Apa itu Graham Number?</h3>
+        <div class="box" style="background-color: #c8e6c9;">
+            <p><strong>Rumus Graham:</strong> Harga Wajar = √ (22.5 x EPS x BVPS)</p>
+        </div>
+    </div>
+
+    <div class="box" id="boxKelebihan" style="background-color: #fff9c4;">
+        <h3>KELEBIHAN</h3>
+        <p>• Memberikan kerangka kerja yang sangat objektif dan berdasarkan data keuangan nyata.</p>
+        <p>• Menggunakan Margin of Safety untuk memastikan keamanan modal investor dari risiko kerugian.</p>
+        <p>• Membantu investor ritel untuk tetap disiplin dan menghindari jebakan spekulasi harga pasar.</p>
+        <p>• Sangat efektif untuk menyaring saham yang undervalued namun memiliki kesehatan fundamental yang sangat kuat.</p>
+        <p>• Mengurangi bias emosional yang sering kali merugikan investor dalam mengambil keputusan beli atau jual.</p>
+        <p>• Memudahkan perbandingan antara satu perusahaan dengan perusahaan lain di dalam sektor industri yang sama.</p>
+        <p>• Memberikan rasa tenang bagi investor jangka panjang karena tidak terpengaruh oleh fluktuasi harga harian yang tidak masuk akal.</p>
+        <br>
+        <h3>KEKURANGAN</h3>
+        <p>• Tidak mempertimbangkan potensi pertumbuhan (growth) laba perusahaan di masa depan secara komprehensif.</p>
+        <p>• Kurang relevan jika diterapkan pada perusahaan teknologi atau startup yang belum mencetak laba bersih besar.</p>
+        <p>• Tidak memasukkan faktor utang perusahaan yang bisa menjadi beban besar bagi kelangsungan operasional.</p>
+        <p>• Rumus ini cenderung terlalu konservatif, sehingga sering kali melewatkan saham-saham yang sedang bertumbuh pesat.</p>
+        <p>• Data historis belum tentu dapat mencerminkan kinerja perusahaan di masa yang akan datang.</p>
+        <p>• Tidak memperhitungkan keunggulan kompetitif atau "moat" yang dimiliki oleh perusahaan di pasar.</p>
+        <p>• Bisa menghasilkan angka valuasi yang menyesatkan jika kondisi ekonomi makro sedang mengalami perubahan yang sangat cepat.</p>
+    </div>
 </div>
 
 <script>
+function formatRupiah(num) {
+    return 'Rp ' + num.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 function hitung() {
     let kode = document.getElementById('kode').value;
     let harga = parseFloat(document.getElementById('harga').value);
@@ -84,7 +178,7 @@ function hitung() {
     let bvps = parseFloat(document.getElementById('bvps').value);
     
     if(!kode || isNaN(harga) || isNaN(eps) || isNaN(bvps)) {
-        alert("Harap isi semua data saham dengan lengkap sebelum melanjutkan!");
+        alert("Mohon isi semua data dengan benar!");
         return;
     }
     
@@ -94,32 +188,54 @@ function hitung() {
     let upside = ((wajar - harga) / harga) * 100;
     
     document.getElementById('outKode').innerText = kode;
-    document.getElementById('wajar').innerText = wajar.toFixed(2);
-    document.getElementById('outHarga').innerText = harga;
-    document.getElementById('selisih').innerText = selisih.toFixed(2);
-    document.getElementById('mos').innerText = mos.toFixed(2);
-    document.getElementById('upside').innerText = upside.toFixed(2);
     
-    let status = mos > 0 ? "SANGAT MURAH (Deep Undervalued)" : "OVERVALUED";
-    document.getElementById('status').innerText = status;
-    document.getElementById('status').style.color = mos > 0 ? "green" : "red";
+    let wajarEl = document.getElementById('wajar');
+    wajarEl.innerText = formatRupiah(wajar);
+    wajarEl.style.color = (wajar >= harga) ? "green" : "red";
     
-    document.getElementById('analisisText').innerText = mos > 0 
-        ? `Berdasarkan metode valuasi Benjamin Graham, saham ${kode} saat ini berada di bawah harga wajarnya. Dengan Margin of Safety sebesar ${mos.toFixed(2)}%, ini menunjukkan bahwa secara teoritis, Anda membeli aset di bawah nilai intrinsiknya. Strategi ini sangat cocok untuk investor jangka panjang yang mementingkan nilai perusahaan di atas fluktuasi harga pasar harian.`
-        : `Saham ${kode} saat ini diperdagangkan di atas harga wajar Graham. Pembelian di area ini memiliki Margin of Safety yang negatif, yang berarti risiko terhadap modal Anda lebih tinggi. Disarankan untuk meninjau kembali keputusan investasi Anda atau menunggu hingga harga pasar terkoreksi lebih dekat ke nilai wajarnya.`;
+    document.getElementById('outHarga').innerText = formatRupiah(harga);
     
-    // Logika Dibalik: Semakin besar persentase, harga semakin rendah
+    let selisihEl = document.getElementById('selisih');
+    selisihEl.innerText = formatRupiah(selisih);
+    selisihEl.style.color = (selisih >= 0) ? "green" : "red";
+    
+    let mosEl = document.getElementById('mos');
+    mosEl.innerText = mos.toFixed(2);
+    mosEl.style.color = (mos >= 0) ? "green" : "red";
+    
+    let upsideEl = document.getElementById('upside');
+    upsideEl.innerText = upside.toFixed(2);
+    upsideEl.style.color = (upside >= 0) ? "green" : "red";
+    
+    let statusEl = document.getElementById('status');
+    statusEl.innerText = mos > 0 ? "SANGAT MURAH (Deep Undervalued)" : "OVERVALUED";
+    statusEl.style.color = mos > 0 ? "green" : "red";
+    
+    document.getElementById('analisisText').innerText = `Secara analisis Benjamin Graham, saham ${kode} saat ini memiliki nilai intrinsik sebesar ${formatRupiah(wajar)}. Dengan harga pasar saat ini ${formatRupiah(harga)}, ini menunjukkan Margin of Safety sebesar ${mos.toFixed(2)}%. Strategi Graham sangat mengutamakan keamanan modal, sehingga ${mos > 0 ? "saham ini layak dipertimbangkan karena berada di bawah nilai intrinsiknya." : "saham ini dinilai sudah terlalu mahal oleh pasar dibandingkan nilai intrinsik Graham."}`;
+    
+    let max = Math.max(harga, wajar);
+    document.getElementById('barSaatIni').style.height = (harga / max * 200) + "px";
+    document.getElementById('barWajar').style.height = (wajar / max * 200) + "px";
+    document.getElementById('valSaatIni').innerText = formatRupiah(harga);
+    document.getElementById('valWajar').innerText = formatRupiah(wajar);
+    
     let buyHtml = "";
     [10, 20, 30, 40, 50].forEach(m => {
-        let hargaTarget = wajar * (1 - (m/100));
-        buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><br>Harga < ${hargaTarget.toFixed(2)}</div>`;
+        let hargaTarget = wajar * (1 - m/100);
+        buyHtml += `<div class="buy-card"><b>MoS ${m}%</b><hr>Harga < ${formatRupiah(hargaTarget)}</div>`;
     });
     document.getElementById('buyText').innerHTML = buyHtml;
 
     document.getElementById('boxData').style.display = 'none';
+    document.getElementById('boxTutorial').style.display = 'none';
+    document.getElementById('boxMenuUtama').style.display = 'none';
+    document.getElementById('boxGraham').style.display = 'none';
+    document.getElementById('boxHasilUtama').style.display = 'block';
     document.getElementById('boxHasil').style.display = 'block';
     document.getElementById('boxAnalisis').style.display = 'block';
+    document.getElementById('boxGrafik').style.display = 'block';
     document.getElementById('boxBuy').style.display = 'block';
+    document.getElementById('boxKelebihan').style.display = 'block';
 }
 
 function reset() { location.reload(); }
